@@ -1,0 +1,55 @@
+<div id="confirmDelete" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+      <div class="modal-header bg-danger">
+        <h5 class="modal-title" id="exampleModalLabel">Eliminar pedido</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+      <div class="modal-body">
+        
+        <input type="hidden" name="ID" id="ID">
+        <div class="row">
+
+          <h2>¿Está seguro de cancelar pedido?</h2>
+            
+        </div>
+
+
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        <button type="button" class="btn btn-danger" onclick="deleteCategoria3()">Si</button>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  
+ function deleteCategoria3()
+ {
+    var id=$("#ID").val();
+
+    $.ajax(
+        {
+          type:"delete",
+          url:"http://apis.pedido.com/api/v1/pedidos/"+id,         
+          success:function(response)
+              {
+                window.FlashMessage.success('el pedido se elimino correctamente');
+                $('#confirmDelete').modal("hide");
+
+                recargarData();
+
+              }
+        }
+      );
+ }
+
+
+</script>

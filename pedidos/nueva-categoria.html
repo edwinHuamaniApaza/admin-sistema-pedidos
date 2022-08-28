@@ -1,0 +1,196 @@
+<div id="nuevaCategoria" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+      <div class="modal-header bg-danger">
+        <h5 class="modal-title" id="exampleModalLabel">Nuevo pedido</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+  
+    <form class="row g-3 needs-validation" novalidate>
+    
+      <div class="modal-body">
+        
+  
+          <input type="hidden" name="ID" id="ID">
+        <div class="row">
+            <div class="col-12">
+              <label for="txtCliente" class="form-label">Cliente</label>
+              <input type="text" class="form-control" id="txtCliente" placeholder="Ingrese cliente" required>
+              <div class="valid-feedback">
+                ok
+              </div>
+               <div class="invalid-feedback">
+                Ingrese el cliente
+              </div>
+            </div>
+            <div class="col-12">
+              <label for="txtOrden" class="form-label">Orden</label>
+              <input type="text" class="form-control" id="txtOrden" placeholder="Ingrese la orden" required>
+
+              <div class="invalid-feedback">
+                Ingrese la orden
+              </div>
+            </div>
+            <div class="col-12">
+              <label for="txtEstatus" class="form-label">Estatus</label>
+              <input type="text" class="form-control" id="txtEstatus" placeholder="Ingrese estatus" required>
+              <div class="valid-feedback">
+                ok
+              </div>
+              <div class="invalid-feedback">
+                Ingrese el estatus
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="txtPrecio" class="form-label">precio</label>
+              <input type="text" class="form-control" id="txtPrecio" placeholder="Ingrese precio" required>
+              <div class="valid-feedback">
+                ok
+              </div>
+              <div class="invalid-feedback">
+                Ingrese el precio
+              </div>
+            </div>
+            <div class="col-12">
+              <label for="txtFecha" class="form-label">fecha</label>
+              <input type="text" class="form-control" id="txtFecha" placeholder="Ingrese fecha" required>
+              <div class="valid-feedback">
+                ok
+              </div>
+              <div class="invalid-feedback">
+                Ingrese la fecha
+              </div>
+            </div>
+
+
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button class="btn btn-danger" type="submit">Guardar2</button>
+      </div>
+    </form>
+
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+
+
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  console.log(forms);
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+
+      console.log(form);
+
+      form.addEventListener('submit', function (event) {
+
+        console.log("validacion");
+
+        if (form.checkValidity()) {
+          
+          guardarCategoria();
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})();
+
+
+
+
+  
+ function guardarCategoria()
+ {
+
+  var ID=$("#ID").val();
+
+  if(ID)
+  {
+    $.ajax(
+      {
+        type:"put",
+        url:"http://apis.pedido.com/api/v1/pedidos/"+ID,
+        data: {
+              cliente:$("#txtCliente").val(),
+              orden:$("#txtOrden").val(),
+              estatus:$("#txtEstatus").val(),
+              precio:$("#txtPrecio").val(),
+              fecha:$("#txtFecha").val(),
+           
+
+              },
+        success:function(response)
+            {
+            
+
+              window.FlashMessage.success('La actualizacion del pedido se guardo correctamente');
+
+                $('#nuevaCategoria').modal("hide");
+
+
+
+                recargarData();
+
+
+            }
+      }
+    );
+
+  }
+  else
+  {
+
+    $.ajax(
+      {
+        type:"post",
+        url:"http://apis.pedido.com/api/v1/pedidos",
+        data: {
+              cliente:$("#txtCliente").val(),
+              orden:$("#txtOrden").val(),
+              estatus:$("#txtEstatus").val(),
+              precio:$("#txtPrecio").val(),
+              fecha:$("#txtFecha").val(),
+           
+
+              },
+        success:function(response)
+            {
+            
+                window.FlashMessage.success('el pedido se guardo correctamente');
+
+
+                $('#nuevaCategoria').modal("hide");
+
+                recargarData();
+
+
+            }
+      }
+    );
+
+  } 
+
+  
+
+
+ }
+
+
+</script>
